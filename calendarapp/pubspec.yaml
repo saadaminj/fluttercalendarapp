@@ -40,6 +40,8 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
   grpc: ^3.2.4
+  logging: ^1.2.0
+  protoc_plugin: ^21.1.2
 
 dev_dependencies:
   flutter_test:

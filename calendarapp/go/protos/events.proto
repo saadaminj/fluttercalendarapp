@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package events;
+
+option go_package = "/protos;protos";
+
+message Event {
+  int32 id = 1;
+  string title = 2;
+  string date = 3;  // You may want to use a string format for date.
+  string time = 4;  // Use a string format for time.
+}
+
+message EventRequest {
+  Event event = 1;
+}
+
+message EventResponse {
+  Event event = 1;
+}
+
+message EventListResponse {
+  repeated Event events = 1;
+}
+
+service EventService {
+  rpc CreateEvent(EventRequest) returns (EventResponse);
+  rpc GetEventById(EventRequest) returns (EventResponse);
+  rpc UpdateEvent(EventRequest) returns (EventResponse);
+  rpc DeleteEvent(EventRequest) returns (EventResponse);
+  rpc ListEvents(EventRequest) returns (EventListResponse);
+}

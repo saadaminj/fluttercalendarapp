@@ -1,12 +1,14 @@
-import 'package:calendarapp/screens/HomeScreen.dart';
+import 'package:calendarapp/screens/utility.dart';
 import 'package:flutter/material.dart';
+
+import '../src/generated/protos/events.pb.dart';
 
 // ignore: must_be_immutable
 class OverlayPopup extends StatefulWidget {
   final VoidCallback onClose;
   final int id;
-  final Function(int, Events) onSave;
-  final Events? event;
+  final Function(int, Event) onSave;
+  final Event? event;
   late TextEditingController _textController;
   late TimeOfDay _selectedTime;
   late DateTime _selectedDate;
@@ -20,8 +22,8 @@ class OverlayPopup extends StatefulWidget {
       this.event}) {
     if (event != null) {
       _textController = TextEditingController(text: event!.title);
-      _selectedTime = event!.time;
-      _selectedDate = event!.date;
+      _selectedTime = parseTimeOfDay(event!.time);
+      _selectedDate = parseDateTime(event!.date);
     } else {
       _textController = TextEditingController(text: '');
       _selectedTime = TimeOfDay.now();
@@ -67,8 +69,11 @@ class OverlayPopupState extends State<OverlayPopup> {
         _errorMessage = null;
         widget.onSave(
             widget.id,
-            Events(widget.id, widget._textController.value.text.toString(),
-                widget._selectedDate, widget._selectedTime));
+            Event(
+                id: widget.id,
+                title: widget._textController.value.text.toString(),
+                date: widget._selectedDate.toString(),
+                time: widget._selectedTime.toString()));
         widget.onClose();
       });
     }
