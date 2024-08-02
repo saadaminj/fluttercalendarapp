@@ -31,6 +31,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       }
     });
     on<GetEvent>((event, emit) async {
+      emit(const EventLoading());
       final response = await eventService.listEvents();
       if (response is EventListResponse) {
         emit(GetEventsState(response.events));

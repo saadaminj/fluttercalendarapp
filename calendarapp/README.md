@@ -40,6 +40,13 @@ or
 - protoc --dart_out=grpc:lib/src/generated -Igo go/events.proto
 
 
+### Run & stop the database server
+
+- brew services start mysql
+- brew services stop mysql
+
+
+
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
