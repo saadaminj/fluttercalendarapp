@@ -95,14 +95,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             password: _passwordController.value.text)));
                       }
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/signup');
                     },
-                    child: Text('Sign Up'),
+                    child: const Text('Sign Up'),
                   )
                 ],
               ),

@@ -23,7 +23,6 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
-      print("state is in spashscreen ${state}");
       if (state is LoginInitialState) {
         _loginBloc.add(CheckAuth());
       }

@@ -206,12 +206,12 @@ class OverlayPopupState extends State<OverlayPopup> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red[700], // Grey background
+                        backgroundColor: Colors.red[700], // Grey background
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(100), // Round corners
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             vertical: 16.0, horizontal: 24.0),
                       ),
                       onPressed: widget.onClose,

@@ -77,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EventBloc, EventState>(listener: (context, state) {
-      print(state);
       if (state is GetEventsState) {
         setState(() {
           listOfEvents = state.eventslist;
@@ -148,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       : listOfEvents.length,
                                   itemBuilder: (context, index) {
                                     if (listOfEvents.isEmpty) {
-                                      return Container(
+                                      return SizedBox(
                                           height: 20,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -268,7 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red, // Background color
-                        shape: CircleBorder(), // Make the button round
+                        shape: const CircleBorder(), // Make the button round
                         padding: const EdgeInsets.all(
                             20), // Adjust padding to increase button size
                       ),

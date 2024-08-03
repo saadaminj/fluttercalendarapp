@@ -169,8 +169,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please confirm your password';
                       }
-                      print(value);
-                      print(_passwordController.value.text);
                       if (value != _passwordController.value.text) {
                         return 'Password does not match';
                       }
@@ -191,12 +189,12 @@ class _SignupScreenState extends State<SignUpScreen> {
                     },
                     child: const Text('Sign Up'),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/login');
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   )
                 ],
               ),
