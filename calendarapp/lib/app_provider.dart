@@ -1,3 +1,6 @@
+import 'package:calendarapp/blocs/login/login_bloc.dart';
+import 'package:calendarapp/services/login_service.dart';
+import 'package:calendarapp/services/token_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:calendarapp/app.dart';
@@ -12,6 +15,14 @@ Widget appProvider() {
       providers: repositoryProviders(),
       child: MultiBlocProvider(
           providers: [
+            BlocProvider<LoginBloc>(
+              create: (context) {
+                final loginService =
+                    RepositoryProvider.of<LoginClient>(context);
+                return LoginBloc(loginService,
+                    RepositoryProvider.of<TokenProvider>(context));
+              },
+            ),
             BlocProvider<EventBloc>(
               create: (context) {
                 final titleService =
@@ -36,9 +47,18 @@ List<RepositoryProvider> repositoryProviders() {
     ),
   );
   return [
+    RepositoryProvider<TokenProvider>(create: (context) {
+      return TokenProvider();
+    }),
     RepositoryProvider<EventClient>(
       create: (context) {
-        return EventClient(channel);
+        return EventClient(
+            channel, RepositoryProvider.of<TokenProvider>(context));
+      },
+    ),
+    RepositoryProvider<LoginClient>(
+      create: (context) {
+        return LoginClient(channel);
       },
     ),
   ];

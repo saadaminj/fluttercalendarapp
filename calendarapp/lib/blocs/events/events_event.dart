@@ -6,6 +6,8 @@ abstract class EventEvent {
 
 class LoadEvent extends EventEvent {}
 
+class EventInitialEvent extends EventEvent {}
+
 class HideCalendarEvent extends EventEvent {}
 
 class ShowCalendarEvent extends EventEvent {

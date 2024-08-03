@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:calendarapp/screens/home_screen.dart';
+import 'package:calendarapp/screens/login_screen.dart';
+import 'package:calendarapp/screens/signup_screen.dart';
+import 'package:calendarapp/screens/splash_screen.dart';
+import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -8,6 +11,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/home': (context) => const MyHomePage(),
+        '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignUpScreen(),
+      },
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.blueGrey[800],
         hintColor: Colors.tealAccent,
@@ -19,7 +28,7 @@ class App extends StatelessWidget {
         // Additional dark theme customizations
       ),
       title: 'Calendar',
-      home: const MyHomePage(),
+      home: const SplashScreen(),
     );
   }
 }

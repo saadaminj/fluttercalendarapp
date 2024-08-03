@@ -39,6 +39,7 @@ class EventBloc extends Bloc<EventEvent, EventState> {
         emit(RequestFailedState(response.reason));
       }
     });
+    on<EventInitialEvent>(((event, emit) => const EventInitial()));
     on<UpdateEvent>((event, emit) async {
       final response = await eventService.updateEvent(event.event);
       if (response is EventResponse) {
