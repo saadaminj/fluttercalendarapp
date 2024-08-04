@@ -5,12 +5,13 @@ package login;
 option go_package = "/protos;protos";
 
 message User {
-  string firstname = 1;
-  string lastname = 2;
-  string email = 3;
-  string username = 4;
-  string password = 5;
-  string token = 6;
+  int64 userId = 1;
+  string firstname = 2;
+  string lastname = 3;
+  string email = 4;
+  string username = 5;
+  string password = 6;
+  string token = 7;
 }
 
 message LoginRequest {

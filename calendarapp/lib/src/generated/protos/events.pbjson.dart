@@ -21,25 +21,28 @@ const Event$json = {
     {'1': 'title', '3': 2, '4': 1, '5': 9, '10': 'title'},
     {'1': 'date', '3': 3, '4': 1, '5': 9, '10': 'date'},
     {'1': 'time', '3': 4, '4': 1, '5': 9, '10': 'time'},
+    {'1': 'userId', '3': 5, '4': 1, '5': 3, '10': 'userId'},
   ],
 };
 
 /// Descriptor for `Event`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List eventDescriptor = $convert.base64Decode(
     'CgVFdmVudBIOCgJpZBgBIAEoBVICaWQSFAoFdGl0bGUYAiABKAlSBXRpdGxlEhIKBGRhdGUYAy'
-    'ABKAlSBGRhdGUSEgoEdGltZRgEIAEoCVIEdGltZQ==');
+    'ABKAlSBGRhdGUSEgoEdGltZRgEIAEoCVIEdGltZRIWCgZ1c2VySWQYBSABKANSBnVzZXJJZA==');
 
 @$core.Deprecated('Use eventRequestDescriptor instead')
 const EventRequest$json = {
   '1': 'EventRequest',
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 11, '6': '.events.Event', '10': 'event'},
+    {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.login.User', '10': 'user'},
   ],
 };
 
 /// Descriptor for `EventRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List eventRequestDescriptor = $convert.base64Decode(
-    'CgxFdmVudFJlcXVlc3QSIwoFZXZlbnQYASABKAsyDS5ldmVudHMuRXZlbnRSBWV2ZW50');
+    'CgxFdmVudFJlcXVlc3QSIwoFZXZlbnQYASABKAsyDS5ldmVudHMuRXZlbnRSBWV2ZW50Eh8KBH'
+    'VzZXIYAiABKAsyCy5sb2dpbi5Vc2VyUgR1c2Vy');
 
 @$core.Deprecated('Use eventResponseDescriptor instead')
 const EventResponse$json = {

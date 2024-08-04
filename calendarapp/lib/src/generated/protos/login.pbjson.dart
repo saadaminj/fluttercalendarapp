@@ -17,20 +17,22 @@ import 'dart:typed_data' as $typed_data;
 const User$json = {
   '1': 'User',
   '2': [
-    {'1': 'firstname', '3': 1, '4': 1, '5': 9, '10': 'firstname'},
-    {'1': 'lastname', '3': 2, '4': 1, '5': 9, '10': 'lastname'},
-    {'1': 'email', '3': 3, '4': 1, '5': 9, '10': 'email'},
-    {'1': 'username', '3': 4, '4': 1, '5': 9, '10': 'username'},
-    {'1': 'password', '3': 5, '4': 1, '5': 9, '10': 'password'},
-    {'1': 'token', '3': 6, '4': 1, '5': 9, '10': 'token'},
+    {'1': 'userId', '3': 1, '4': 1, '5': 3, '10': 'userId'},
+    {'1': 'firstname', '3': 2, '4': 1, '5': 9, '10': 'firstname'},
+    {'1': 'lastname', '3': 3, '4': 1, '5': 9, '10': 'lastname'},
+    {'1': 'email', '3': 4, '4': 1, '5': 9, '10': 'email'},
+    {'1': 'username', '3': 5, '4': 1, '5': 9, '10': 'username'},
+    {'1': 'password', '3': 6, '4': 1, '5': 9, '10': 'password'},
+    {'1': 'token', '3': 7, '4': 1, '5': 9, '10': 'token'},
   ],
 };
 
 /// Descriptor for `User`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
-    'CgRVc2VyEhwKCWZpcnN0bmFtZRgBIAEoCVIJZmlyc3RuYW1lEhoKCGxhc3RuYW1lGAIgASgJUg'
-    'hsYXN0bmFtZRIUCgVlbWFpbBgDIAEoCVIFZW1haWwSGgoIdXNlcm5hbWUYBCABKAlSCHVzZXJu'
-    'YW1lEhoKCHBhc3N3b3JkGAUgASgJUghwYXNzd29yZBIUCgV0b2tlbhgGIAEoCVIFdG9rZW4=');
+    'CgRVc2VyEhYKBnVzZXJJZBgBIAEoA1IGdXNlcklkEhwKCWZpcnN0bmFtZRgCIAEoCVIJZmlyc3'
+    'RuYW1lEhoKCGxhc3RuYW1lGAMgASgJUghsYXN0bmFtZRIUCgVlbWFpbBgEIAEoCVIFZW1haWwS'
+    'GgoIdXNlcm5hbWUYBSABKAlSCHVzZXJuYW1lEhoKCHBhc3N3b3JkGAYgASgJUghwYXNzd29yZB'
+    'IUCgV0b2tlbhgHIAEoCVIFdG9rZW4=');
 
 @$core.Deprecated('Use loginRequestDescriptor instead')
 const LoginRequest$json = {

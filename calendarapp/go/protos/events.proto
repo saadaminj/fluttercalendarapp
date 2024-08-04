@@ -4,15 +4,19 @@ package events;
 
 option go_package = "/protos;protos";
 
+import "protos/login.proto";
+
 message Event {
   int32 id = 1;
   string title = 2;
   string date = 3;  // You may want to use a string format for date.
   string time = 4;  // Use a string format for time.
+  int64 userId = 5;
 }
 
 message EventRequest {
   Event event = 1;
+  login.User user = 2;
 }
 
 message EventResponse {

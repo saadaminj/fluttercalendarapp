@@ -11,7 +11,10 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
+
+import 'login.pb.dart' as $0;
 
 class Event extends $pb.GeneratedMessage {
   factory Event({
@@ -19,6 +22,7 @@ class Event extends $pb.GeneratedMessage {
     $core.String? title,
     $core.String? date,
     $core.String? time,
+    $fixnum.Int64? userId,
   }) {
     final $result = create();
     if (id != null) {
@@ -33,6 +37,9 @@ class Event extends $pb.GeneratedMessage {
     if (time != null) {
       $result.time = time;
     }
+    if (userId != null) {
+      $result.userId = userId;
+    }
     return $result;
   }
   Event._() : super();
@@ -44,6 +51,7 @@ class Event extends $pb.GeneratedMessage {
     ..aOS(2, _omitFieldNames ? '' : 'title')
     ..aOS(3, _omitFieldNames ? '' : 'date')
     ..aOS(4, _omitFieldNames ? '' : 'time')
+    ..aInt64(5, _omitFieldNames ? '' : 'userId', protoName: 'userId')
     ..hasRequiredFields = false
   ;
 
@@ -103,15 +111,28 @@ class Event extends $pb.GeneratedMessage {
   $core.bool hasTime() => $_has(3);
   @$pb.TagNumber(4)
   void clearTime() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $fixnum.Int64 get userId => $_getI64(4);
+  @$pb.TagNumber(5)
+  set userId($fixnum.Int64 v) { $_setInt64(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasUserId() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearUserId() => clearField(5);
 }
 
 class EventRequest extends $pb.GeneratedMessage {
   factory EventRequest({
     Event? event,
+    $0.User? user,
   }) {
     final $result = create();
     if (event != null) {
       $result.event = event;
+    }
+    if (user != null) {
+      $result.user = user;
     }
     return $result;
   }
@@ -121,6 +142,7 @@ class EventRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'EventRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'events'), createEmptyInstance: create)
     ..aOM<Event>(1, _omitFieldNames ? '' : 'event', subBuilder: Event.create)
+    ..aOM<$0.User>(2, _omitFieldNames ? '' : 'user', subBuilder: $0.User.create)
     ..hasRequiredFields = false
   ;
 
@@ -155,6 +177,17 @@ class EventRequest extends $pb.GeneratedMessage {
   void clearEvent() => clearField(1);
   @$pb.TagNumber(1)
   Event ensureEvent() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $0.User get user => $_getN(1);
+  @$pb.TagNumber(2)
+  set user($0.User v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUser() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUser() => clearField(2);
+  @$pb.TagNumber(2)
+  $0.User ensureUser() => $_ensure(1);
 }
 
 class EventResponse extends $pb.GeneratedMessage {

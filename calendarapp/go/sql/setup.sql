@@ -20,4 +20,4 @@ CREATE TABLE users (
 );
 
 -- to go to mysql shell
--- mysql -u root -i
+-- mysql -u root -p

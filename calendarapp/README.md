@@ -31,19 +31,25 @@ go get -u github.com/golang/protobuf/proto"
 
 ### HOW TO GENERATE PROTO FILES:
 
-To generate go files
-- protoc --go_out=plugins=grpc:. events.proto
+export PATH=$PATH:$(go env GOPATH)/bin
 
-To generate dart files
-- protoc --dart_out=grpc:lib/src/generated -Iprotos protos/events.proto
-or
-- protoc --dart_out=grpc:lib/src/generated -Igo go/events.proto
+To generate go files in protos directory
+- protoc --go_out=. --go-grpc_out=. events.proto
+
+
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+To generate dart files in go directory
+- protoc --dart_out=grpc:./ -Iprotos protos/events.proto
 
 
 ### Run & stop the database server
 
 - brew services start mysql
 - brew services stop mysql
+
+to go to mysql shell
+-- mysql -u root -p
 
 
 

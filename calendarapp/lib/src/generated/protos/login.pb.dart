@@ -11,10 +11,12 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class User extends $pb.GeneratedMessage {
   factory User({
+    $fixnum.Int64? userId,
     $core.String? firstname,
     $core.String? lastname,
     $core.String? email,
@@ -23,6 +25,9 @@ class User extends $pb.GeneratedMessage {
     $core.String? token,
   }) {
     final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
     if (firstname != null) {
       $result.firstname = firstname;
     }
@@ -48,12 +53,13 @@ class User extends $pb.GeneratedMessage {
   factory User.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'User', package: const $pb.PackageName(_omitMessageNames ? '' : 'login'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'firstname')
-    ..aOS(2, _omitFieldNames ? '' : 'lastname')
-    ..aOS(3, _omitFieldNames ? '' : 'email')
-    ..aOS(4, _omitFieldNames ? '' : 'username')
-    ..aOS(5, _omitFieldNames ? '' : 'password')
-    ..aOS(6, _omitFieldNames ? '' : 'token')
+    ..aInt64(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, _omitFieldNames ? '' : 'firstname')
+    ..aOS(3, _omitFieldNames ? '' : 'lastname')
+    ..aOS(4, _omitFieldNames ? '' : 'email')
+    ..aOS(5, _omitFieldNames ? '' : 'username')
+    ..aOS(6, _omitFieldNames ? '' : 'password')
+    ..aOS(7, _omitFieldNames ? '' : 'token')
     ..hasRequiredFields = false
   ;
 
@@ -79,58 +85,67 @@ class User extends $pb.GeneratedMessage {
   static User? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get firstname => $_getSZ(0);
+  $fixnum.Int64 get userId => $_getI64(0);
   @$pb.TagNumber(1)
-  set firstname($core.String v) { $_setString(0, v); }
+  set userId($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasFirstname() => $_has(0);
+  $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearFirstname() => clearField(1);
+  void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get lastname => $_getSZ(1);
+  $core.String get firstname => $_getSZ(1);
   @$pb.TagNumber(2)
-  set lastname($core.String v) { $_setString(1, v); }
+  set firstname($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasLastname() => $_has(1);
+  $core.bool hasFirstname() => $_has(1);
   @$pb.TagNumber(2)
-  void clearLastname() => clearField(2);
+  void clearFirstname() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get email => $_getSZ(2);
+  $core.String get lastname => $_getSZ(2);
   @$pb.TagNumber(3)
-  set email($core.String v) { $_setString(2, v); }
+  set lastname($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasEmail() => $_has(2);
+  $core.bool hasLastname() => $_has(2);
   @$pb.TagNumber(3)
-  void clearEmail() => clearField(3);
+  void clearLastname() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get username => $_getSZ(3);
+  $core.String get email => $_getSZ(3);
   @$pb.TagNumber(4)
-  set username($core.String v) { $_setString(3, v); }
+  set email($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasUsername() => $_has(3);
+  $core.bool hasEmail() => $_has(3);
   @$pb.TagNumber(4)
-  void clearUsername() => clearField(4);
+  void clearEmail() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get password => $_getSZ(4);
+  $core.String get username => $_getSZ(4);
   @$pb.TagNumber(5)
-  set password($core.String v) { $_setString(4, v); }
+  set username($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPassword() => $_has(4);
+  $core.bool hasUsername() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPassword() => clearField(5);
+  void clearUsername() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.String get token => $_getSZ(5);
+  $core.String get password => $_getSZ(5);
   @$pb.TagNumber(6)
-  set token($core.String v) { $_setString(5, v); }
+  set password($core.String v) { $_setString(5, v); }
   @$pb.TagNumber(6)
-  $core.bool hasToken() => $_has(5);
+  $core.bool hasPassword() => $_has(5);
   @$pb.TagNumber(6)
-  void clearToken() => clearField(6);
+  void clearPassword() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get token => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set token($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasToken() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearToken() => clearField(7);
 }
 
 class LoginRequest extends $pb.GeneratedMessage {

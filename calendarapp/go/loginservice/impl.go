@@ -57,7 +57,7 @@ func (s *LoginServiceImpl) generateJWT(username string) (string, error) {
 func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
     var user1 pb.User;
 	user := req.GetUser()
-    err := s.db.QueryRow("SELECT firstname, lastname, username, password, email FROM users WHERE username = ?", user.Username).Scan(&user1.Firstname, &user1.Lastname, &user1.Username, &user1.Password, &user1.Email)
+    err := s.db.QueryRow("SELECT id, firstname, lastname, username, password, email FROM users WHERE username = ?", user.Username).Scan(&user1.UserId, &user1.Firstname, &user1.Lastname, &user1.Username, &user1.Password, &user1.Email)
     if err != nil {
         if err == sql.ErrNoRows {
             return &pb.LoginResponse{}, errors.New("user not found")
@@ -95,10 +95,19 @@ func (s *LoginServiceImpl) Signup(ctx context.Context, req *pb.LoginRequest) (*p
     }
 
     // Insert new user
-    _, err = s.db.Exec("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)", user.Firstname, user.Lastname, user.Username, hash, user.Email)
+    result, err := s.db.Exec("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)", user.Firstname, user.Lastname, user.Username, hash, user.Email)
     if err != nil {
         return &pb.LoginResponse{}, err
     }
+
+    // Get the last inserted ID
+    id, err := result.LastInsertId()
+    if err != nil {
+        return nil, err
+    }
+
+    // Set the ID of the user
+    user.UserId = id;
 
 	token, err := s.generateJWT(user.Username)
     if err != nil {
