@@ -22,7 +22,7 @@ func NewEventService(db *sql.DB) *eventServer {
 func (s *eventServer) CreateEvent(ctx context.Context, req *pb.EventRequest) (*pb.EventResponse, error) {
     event := req.GetEvent()
     user := req.GetUser()
-    res, err := s.db.ExecContext(ctx, "INSERT INTO events (title, date, time, userId) VALUES (?, ?, ?, ?, ?)",  event.GetTitle(), event.GetDate(), event.GetTime(), user.GetUserId())
+    res, err := s.db.ExecContext(ctx, "INSERT INTO events (title, date, time, userId) VALUES ( ?, ?, ?, ?)",  event.GetTitle(), event.GetDate(), event.GetTime(), user.GetUserId())
     if err != nil {
         return nil, err
     }
