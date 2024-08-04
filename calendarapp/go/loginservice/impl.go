@@ -9,11 +9,24 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	pb "github.com/saadaminj/calendarapp/protos"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginServiceImpl struct {
 	pb.UnimplementedLoginServiceServer
     db *sql.DB
+}   
+
+// HashPassword hashes the given password using bcrypt
+func HashPassword(password string) (string, error) {
+    bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+    return string(bytes), err
+}
+
+// CheckPasswordHash checks if the provided password matches the hashed password
+func CheckPasswordHash(password, hash string) bool {
+    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+    return err == nil
 }
 
 func NewLoginService(db *sql.DB) *LoginServiceImpl {
@@ -52,7 +65,7 @@ func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb
         return &pb.LoginResponse{}, err
     }
 
-    if user1.Password != user.Password {
+    if CheckPasswordHash(user.Password, user1.Password) {
         return &pb.LoginResponse{}, errors.New("invalid credentials")
     }
 	token, err := s.generateJWT(user.Username)
@@ -60,6 +73,7 @@ func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb
         return nil, err
     }
 	user1.Token = token;
+    user1.Password = "";
 
     return &pb.LoginResponse{User: &user1}, nil
 }
@@ -75,8 +89,13 @@ func (s *LoginServiceImpl) Signup(ctx context.Context, req *pb.LoginRequest) (*p
         return &pb.LoginResponse{}, err
     }
 
+    hash, err := HashPassword(user.Password)
+    if err != nil {
+        return &pb.LoginResponse{}, err
+    }
+
     // Insert new user
-    _, err = s.db.Exec("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)", user.Firstname, user.Lastname, user.Username, user.Password, user.Email)
+    _, err = s.db.Exec("INSERT INTO users (firstname, lastname, username, password, email) VALUES (?, ?, ?, ?, ?)", user.Firstname, user.Lastname, user.Username, hash, user.Email)
     if err != nil {
         return &pb.LoginResponse{}, err
     }
@@ -86,6 +105,7 @@ func (s *LoginServiceImpl) Signup(ctx context.Context, req *pb.LoginRequest) (*p
         return nil, err
     }
 	user.Token = token;
+    user.Password = "";
 
     return &pb.LoginResponse{User: user}, nil
 }
