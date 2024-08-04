@@ -14,9 +14,10 @@ class EventClient {
   }
 
   Future<GeneratedMessage> createEvent(Event event) async {
-    final request = EventRequest()..event = event;
     try {
       var token = _tokenProvider.token;
+      var user = _tokenProvider.user;
+      final request = EventRequest(event: event, user: user);
       final callOptions =
           CallOptions(metadata: {'authorization': 'Bearer $token'});
       final response = await _stub.createEvent(request, options: callOptions);
@@ -29,9 +30,10 @@ class EventClient {
 
   Future<GeneratedMessage> getEventById(int id) async {
     var token = _tokenProvider.token;
+    var user = _tokenProvider.user;
+    final request = EventRequest(event: Event(id: id), user: user);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final request = EventRequest()..event = Event(id: id);
     try {
       final response = await _stub.getEventById(request, options: callOptions);
       print('Event fetched: ${response.event}');
@@ -44,9 +46,10 @@ class EventClient {
 
   Future<GeneratedMessage> updateEvent(Event event) async {
     var token = _tokenProvider.token;
+    var user = _tokenProvider.user;
+    final request = EventRequest(event: event, user: user);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final request = EventRequest()..event = event;
     try {
       final response = await _stub.updateEvent(request, options: callOptions);
       print('Event updated: ${response.event}');
@@ -59,9 +62,10 @@ class EventClient {
 
   Future<GeneratedMessage> deleteEvent(int id) async {
     var token = _tokenProvider.token;
+    var user = _tokenProvider.user;
+    final request = EventRequest(event: Event(id: id), user: user);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final request = EventRequest()..event = Event(id: id);
     try {
       final response = await _stub.deleteEvent(request, options: callOptions);
       print('Event deleted');
@@ -74,9 +78,10 @@ class EventClient {
 
   Future<GeneratedMessage> listEvents() async {
     var token = _tokenProvider.token;
+    var user = _tokenProvider.user;
+    final request = EventRequest(user: user);
     final callOptions =
         CallOptions(metadata: {'authorization': 'Bearer $token'});
-    final request = EventRequest();
     try {
       final response = await _stub.listEvents(request, options: callOptions);
       print('Event list: ${response.events}');

@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void openWidget() {
-    _eventBloc.add(ShowCalendarEvent(id: listOfEvents.length));
+    _eventBloc.add(ShowCalendarEvent());
   }
 
   void closeWidget() {
@@ -55,21 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
     _eventBloc.add(DeleteEvent(id));
   }
 
-  void saveWidget(int id, Event event) {
-    int index = listOfEvents.indexWhere((item) => item.id == id);
-    if (index == -1) {
+  void saveWidget(int? id, Event event) {
+    if (id == null) {
       _eventBloc.add(CreateEvent(event));
-      // setState(() {
-      //   listOfEvents.add(Event(
-      //       id: id, title: event.title, date: event.date, time: event.time));
-      // });
     } else {
-      _eventBloc.add(UpdateEvent(event));
-      // setState(() {
-      //   listOfEvents[index].date = event.date;
-      //   listOfEvents[index].time = event.time;
-      //   listOfEvents[index].title = event.title;
-      // });
+      int index = listOfEvents.indexWhere((item) => item.id == id);
+      if (index == -1) {
+        _eventBloc.add(CreateEvent(event));
+      } else {
+        _eventBloc.add(UpdateEvent(event));
+      }
     }
     _eventBloc.add(HideCalendarEvent());
   }

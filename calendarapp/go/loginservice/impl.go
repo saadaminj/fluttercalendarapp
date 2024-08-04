@@ -65,7 +65,7 @@ func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb
         return &pb.LoginResponse{}, err
     }
 
-    if CheckPasswordHash(user.Password, user1.Password) {
+    if !CheckPasswordHash(user.Password, user1.Password) {
         return &pb.LoginResponse{}, errors.New("invalid credentials")
     }
 	token, err := s.generateJWT(user.Username)

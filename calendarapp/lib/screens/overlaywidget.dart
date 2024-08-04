@@ -6,8 +6,8 @@ import '../src/generated/protos/events.pb.dart';
 // ignore: must_be_immutable
 class OverlayPopup extends StatefulWidget {
   final VoidCallback onClose;
-  final int id;
-  final Function(int, Event) onSave;
+  final int? id;
+  final Function(int?, Event) onSave;
   final Event? event;
   late TextEditingController _textController;
   late TimeOfDay _selectedTime;
@@ -18,7 +18,7 @@ class OverlayPopup extends StatefulWidget {
       {super.key,
       required this.onClose,
       required this.onSave,
-      required this.id,
+      this.id,
       this.event}) {
     if (event != null) {
       _textController = TextEditingController(text: event!.title);

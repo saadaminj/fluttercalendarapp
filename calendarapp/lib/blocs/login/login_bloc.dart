@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (response is LoginResponse) {
         await tokenProvider
             .saveToken(response.user.token)
+            .then((value) async => await tokenProvider.saveUser(response.user))
             .then((value) => emit(LoginSuccessState(response.user)));
       } else if (response is ErrorInfo) {
         emit(LoginFailedState(response.reason));
@@ -24,11 +25,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
     on<LogoutEvent>((event, emit) {
       tokenProvider.clearToken();
+      tokenProvider.clearUser();
       emit(const LogoutSuccess());
     });
     on<CheckAuth>((event, emit) async {
       String token = await tokenProvider.loadToken();
       if (token.isNotEmpty) {
+        await tokenProvider.loadUser();
         emit(const Authenticated());
       } else {
         emit(const AuthenticationFailed());
@@ -38,7 +41,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<SignupEvent>((event, emit) async {
       var response = await loginService.signup(event.user);
       if (response is LoginResponse) {
-        emit(SignupSuccessState(response.user));
+        await tokenProvider
+            .saveToken(response.user.token)
+            .then((value) async => await tokenProvider.saveUser(response.user))
+            .then((value) => emit(SignupSuccessState(response.user)));
+        ;
       } else if (response is ErrorInfo) {
         emit(LoginFailedState(response.reason));
       }

@@ -12,9 +12,9 @@ class HideCalendarEvent extends EventEvent {}
 
 class ShowCalendarEvent extends EventEvent {
   Event? event;
-  final int id;
+  int? id;
   ShowCalendarEvent({
-    required this.id,
+    this.id,
     this.event,
   });
 }

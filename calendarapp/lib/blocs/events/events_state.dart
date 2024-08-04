@@ -44,7 +44,7 @@ class EventLoaded extends EventState {
 
 class ShowCalendarState extends EventState {
   const ShowCalendarState({required this.id, this.event}) : super();
-  final int id;
+  final int? id;
   final Event? event;
   @override
   List<Object?> get props => [];

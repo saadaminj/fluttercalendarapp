@@ -47,8 +47,10 @@ class _SignupScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state is SignupSuccessState) {
-        _tokenProvider.saveToken(state.user.token);
-        Navigator.pushReplacementNamed(context, '/home');
+        _tokenProvider
+            .saveToken(state.user.token)
+            .then((value) => Navigator.pushReplacementNamed(context, '/home'));
+        ;
       }
       if (state is LoginFailedState) {
         ScaffoldMessenger.of(context)

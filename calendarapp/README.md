@@ -43,6 +43,10 @@ To generate dart files in go directory
 - protoc --dart_out=grpc:./ -Iprotos protos/events.proto
 
 
+List down processes using port 50051:
+- lsof -i :50051
+
+
 ### Run & stop the database server
 
 - brew services start mysql
