@@ -10,13 +10,14 @@ import 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final TokenProvider tokenProvider;
   final LoginClient loginService;
+
   LoginBloc(this.loginService, this.tokenProvider)
       : super(const LoginInitialState()) {
     on<Login>((event, emit) async {
       var response = await loginService.login(event.user);
       if (response is LoginResponse) {
         await tokenProvider
-            .saveToken(response.user.token)
+            .saveToken(response.user.token, response.user.refreshToken)
             .then((value) async => await tokenProvider.saveUser(response.user))
             .then((value) => emit(LoginSuccessState(response.user)));
       } else if (response is ErrorInfo) {
@@ -29,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(const LogoutSuccess());
     });
     on<CheckAuth>((event, emit) async {
-      String token = await tokenProvider.loadToken();
+      String token = await tokenProvider.loadToken(loginService);
       if (token.isNotEmpty) {
         await tokenProvider.loadUser();
         emit(const Authenticated());
@@ -42,7 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       var response = await loginService.signup(event.user);
       if (response is LoginResponse) {
         await tokenProvider
-            .saveToken(response.user.token)
+            .saveToken(response.user.token, response.user.refreshToken)
             .then((value) async => await tokenProvider.saveUser(response.user))
             .then((value) => emit(SignupSuccessState(response.user)));
         ;

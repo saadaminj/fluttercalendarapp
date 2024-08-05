@@ -43,6 +43,7 @@ dependencies:
   logging: ^1.2.0
   protoc_plugin: ^21.1.2
   shared_preferences: ^2.2.2
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

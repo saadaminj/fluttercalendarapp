@@ -29,6 +29,10 @@ class LoginServiceClient extends $grpc.Client {
       '/login.LoginService/Signup',
       ($0.LoginRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.LoginResponse.fromBuffer(value));
+  static final _$refreshTokenHandler = $grpc.ClientMethod<$0.LoginRequest, $0.LoginResponse>(
+      '/login.LoginService/RefreshTokenHandler',
+      ($0.LoginRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.LoginResponse.fromBuffer(value));
 
   LoginServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -42,6 +46,10 @@ class LoginServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.LoginResponse> signup($0.LoginRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$signup, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.LoginResponse> refreshTokenHandler($0.LoginRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$refreshTokenHandler, request, options: options);
   }
 }
 
@@ -64,6 +72,13 @@ abstract class LoginServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.LoginRequest.fromBuffer(value),
         ($0.LoginResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.LoginRequest, $0.LoginResponse>(
+        'RefreshTokenHandler',
+        refreshTokenHandler_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.LoginRequest.fromBuffer(value),
+        ($0.LoginResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.LoginResponse> login_Pre($grpc.ServiceCall call, $async.Future<$0.LoginRequest> request) async {
@@ -74,6 +89,11 @@ abstract class LoginServiceBase extends $grpc.Service {
     return signup(call, await request);
   }
 
+  $async.Future<$0.LoginResponse> refreshTokenHandler_Pre($grpc.ServiceCall call, $async.Future<$0.LoginRequest> request) async {
+    return refreshTokenHandler(call, await request);
+  }
+
   $async.Future<$0.LoginResponse> login($grpc.ServiceCall call, $0.LoginRequest request);
   $async.Future<$0.LoginResponse> signup($grpc.ServiceCall call, $0.LoginRequest request);
+  $async.Future<$0.LoginResponse> refreshTokenHandler($grpc.ServiceCall call, $0.LoginRequest request);
 }

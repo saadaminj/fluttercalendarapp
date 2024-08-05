@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	LoginService_Login_FullMethodName  = "/login.LoginService/Login"
-	LoginService_Signup_FullMethodName = "/login.LoginService/Signup"
+	LoginService_Login_FullMethodName               = "/login.LoginService/Login"
+	LoginService_Signup_FullMethodName              = "/login.LoginService/Signup"
+	LoginService_RefreshTokenHandler_FullMethodName = "/login.LoginService/RefreshTokenHandler"
 )
 
 // LoginServiceClient is the client API for LoginService service.
@@ -29,6 +30,7 @@ const (
 type LoginServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Signup(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	RefreshTokenHandler(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 }
 
 type loginServiceClient struct {
@@ -59,12 +61,23 @@ func (c *loginServiceClient) Signup(ctx context.Context, in *LoginRequest, opts 
 	return out, nil
 }
 
+func (c *loginServiceClient) RefreshTokenHandler(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResponse)
+	err := c.cc.Invoke(ctx, LoginService_RefreshTokenHandler_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoginServiceServer is the server API for LoginService service.
 // All implementations must embed UnimplementedLoginServiceServer
 // for forward compatibility.
 type LoginServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Signup(context.Context, *LoginRequest) (*LoginResponse, error)
+	RefreshTokenHandler(context.Context, *LoginRequest) (*LoginResponse, error)
 	mustEmbedUnimplementedLoginServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedLoginServiceServer) Login(context.Context, *LoginRequest) (*L
 }
 func (UnimplementedLoginServiceServer) Signup(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Signup not implemented")
+}
+func (UnimplementedLoginServiceServer) RefreshTokenHandler(context.Context, *LoginRequest) (*LoginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshTokenHandler not implemented")
 }
 func (UnimplementedLoginServiceServer) mustEmbedUnimplementedLoginServiceServer() {}
 func (UnimplementedLoginServiceServer) testEmbeddedByValue()                      {}
@@ -138,6 +154,24 @@ func _LoginService_Signup_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LoginService_RefreshTokenHandler_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoginServiceServer).RefreshTokenHandler(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LoginService_RefreshTokenHandler_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoginServiceServer).RefreshTokenHandler(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LoginService_ServiceDesc is the grpc.ServiceDesc for LoginService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var LoginService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Signup",
 			Handler:    _LoginService_Signup_Handler,
+		},
+		{
+			MethodName: "RefreshTokenHandler",
+			Handler:    _LoginService_RefreshTokenHandler_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

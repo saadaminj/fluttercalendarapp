@@ -23,6 +23,7 @@ class User extends $pb.GeneratedMessage {
     $core.String? username,
     $core.String? password,
     $core.String? token,
+    $core.String? refreshToken,
   }) {
     final $result = create();
     if (userId != null) {
@@ -46,6 +47,9 @@ class User extends $pb.GeneratedMessage {
     if (token != null) {
       $result.token = token;
     }
+    if (refreshToken != null) {
+      $result.refreshToken = refreshToken;
+    }
     return $result;
   }
   User._() : super();
@@ -60,6 +64,7 @@ class User extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'username')
     ..aOS(6, _omitFieldNames ? '' : 'password')
     ..aOS(7, _omitFieldNames ? '' : 'token')
+    ..aOS(8, _omitFieldNames ? '' : 'refreshToken', protoName: 'refreshToken')
     ..hasRequiredFields = false
   ;
 
@@ -146,6 +151,15 @@ class User extends $pb.GeneratedMessage {
   $core.bool hasToken() => $_has(6);
   @$pb.TagNumber(7)
   void clearToken() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get refreshToken => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set refreshToken($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasRefreshToken() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearRefreshToken() => clearField(8);
 }
 
 class LoginRequest extends $pb.GeneratedMessage {

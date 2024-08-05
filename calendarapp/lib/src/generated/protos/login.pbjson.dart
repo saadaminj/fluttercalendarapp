@@ -24,6 +24,7 @@ const User$json = {
     {'1': 'username', '3': 5, '4': 1, '5': 9, '10': 'username'},
     {'1': 'password', '3': 6, '4': 1, '5': 9, '10': 'password'},
     {'1': 'token', '3': 7, '4': 1, '5': 9, '10': 'token'},
+    {'1': 'refreshToken', '3': 8, '4': 1, '5': 9, '10': 'refreshToken'},
   ],
 };
 
@@ -32,7 +33,8 @@ final $typed_data.Uint8List userDescriptor = $convert.base64Decode(
     'CgRVc2VyEhYKBnVzZXJJZBgBIAEoA1IGdXNlcklkEhwKCWZpcnN0bmFtZRgCIAEoCVIJZmlyc3'
     'RuYW1lEhoKCGxhc3RuYW1lGAMgASgJUghsYXN0bmFtZRIUCgVlbWFpbBgEIAEoCVIFZW1haWwS'
     'GgoIdXNlcm5hbWUYBSABKAlSCHVzZXJuYW1lEhoKCHBhc3N3b3JkGAYgASgJUghwYXNzd29yZB'
-    'IUCgV0b2tlbhgHIAEoCVIFdG9rZW4=');
+    'IUCgV0b2tlbhgHIAEoCVIFdG9rZW4SIgoMcmVmcmVzaFRva2VuGAggASgJUgxyZWZyZXNoVG9r'
+    'ZW4=');
 
 @$core.Deprecated('Use loginRequestDescriptor instead')
 const LoginRequest$json = {

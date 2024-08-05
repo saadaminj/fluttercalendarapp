@@ -1,21 +1,40 @@
+import 'package:calendarapp/services/login_service.dart';
+import 'package:calendarapp/src/generated/protos/login.pbgrpc.dart';
 import 'package:fixnum/src/int64.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../src/generated/protos/login.pb.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class TokenProvider {
   final String _jwtTokenKey = 'jwtToken';
+  final String _jwtRefreshTokenKey = 'jwtRefreshToken';
   final String _userKey = 'calendarAppUser';
   String _token = '';
+  String _refreshToken = '';
   User user = User();
 
   String get token => _token;
+  String get refreshToken => _refreshToken;
 
   TokenProvider();
 
-  Future<String> loadToken() async {
+  Future<String> loadToken(LoginClient loginService) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _token = prefs.getString(_jwtTokenKey) ?? '';
+    _refreshToken = prefs.getString(_jwtTokenKey) ?? '';
+    if (isTokenExpired(token)) {
+      String username = prefs.getString('${_userKey}username') ?? '';
+      var response = await loginService.fetchRefreshToken(
+          User(username: username, refreshToken: _refreshToken));
+      if (response is LoginResponse) {
+        saveToken(response.user.token, response.user.refreshToken);
+      }
+    }
     return _token;
+  }
+
+  bool isTokenExpired(String token) {
+    return JwtDecoder.isExpired(token);
   }
 
   Future<User> loadUser() async {
@@ -29,10 +48,12 @@ class TokenProvider {
     return user;
   }
 
-  Future<void> saveToken(String token) async {
+  Future<void> saveToken(String token, String refreshToken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(_jwtTokenKey, token);
+    await prefs.setString(_jwtRefreshTokenKey, refreshToken);
     _token = token;
+    _refreshToken = refreshToken;
   }
 
   Future<void> saveUser(User user) async {
@@ -48,7 +69,9 @@ class TokenProvider {
   Future<void> clearToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(_jwtTokenKey);
+    await prefs.remove(_jwtRefreshTokenKey);
     _token = '';
+    _refreshToken = '';
   }
 
   Future<void> clearUser() async {

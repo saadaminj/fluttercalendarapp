@@ -36,13 +36,14 @@ func NewLoginService(db *sql.DB) *LoginServiceImpl {
 }
 
 var jwtKey = []byte(os.Getenv("JWT_KEY"))
+var refreshSecret = []byte(os.Getenv("REFRESH_KEY"))
 
 type Claims struct {
     Username string `json:"username"`
     jwt.StandardClaims
 }
 
-func (s *LoginServiceImpl) generateJWT(username string) (string, error) {
+func (s *LoginServiceImpl) generateAccessToken(username string) (string, error) {
     expirationTime := time.Now().Add(1 * time.Hour)
     claims := &Claims{
         Username: username,
@@ -52,6 +53,45 @@ func (s *LoginServiceImpl) generateJWT(username string) (string, error) {
     }
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     return token.SignedString(jwtKey)
+}
+
+func generateRefreshToken(username string) (string, error) {
+	expirationTime := time.Now().Add(7 * 24 * time.Hour)
+	claims := &Claims{
+		Username: username,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(refreshSecret)
+}
+
+func (s *LoginServiceImpl) RefreshTokenHandler(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
+	_refreshToken := req.GetUser().RefreshToken;
+	claims := &Claims{}
+	token, err := jwt.ParseWithClaims(_refreshToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return refreshSecret, nil
+	})
+
+	if err != nil || !token.Valid {
+        return &pb.LoginResponse{}, err
+	}
+
+	accessToken, err := s.generateAccessToken(claims.Username)
+	if err != nil {
+        return &pb.LoginResponse{}, err
+	}
+
+	refreshToken, err := generateRefreshToken(claims.Username)
+	if err != nil {
+        return &pb.LoginResponse{}, err
+	}
+
+    return &pb.LoginResponse{User: &pb.User{Token:accessToken,RefreshToken: refreshToken}}, err
+
+
 }
 
 func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
@@ -68,12 +108,17 @@ func (s *LoginServiceImpl) Login(ctx context.Context, req *pb.LoginRequest) (*pb
     if !CheckPasswordHash(user.Password, user1.Password) {
         return &pb.LoginResponse{}, errors.New("invalid credentials")
     }
-	token, err := s.generateJWT(user.Username)
+	token, err := s.generateAccessToken(user.Username)
     if err != nil {
         return nil, err
     }
+    refreshToken, err := generateRefreshToken(user.Username)
+	if err != nil {
+        return &pb.LoginResponse{}, err
+	}
 	user1.Token = token;
     user1.Password = "";
+    user1.RefreshToken = refreshToken;
 
     return &pb.LoginResponse{User: &user1}, nil
 }
@@ -109,12 +154,19 @@ func (s *LoginServiceImpl) Signup(ctx context.Context, req *pb.LoginRequest) (*p
     // Set the ID of the user
     user.UserId = id;
 
-	token, err := s.generateJWT(user.Username)
+	token, err := s.generateAccessToken(user.Username)
     if err != nil {
         return nil, err
     }
+    
+    refreshToken, err := generateRefreshToken(user.Username)
+	if err != nil {
+        return &pb.LoginResponse{}, err
+	}
+
 	user.Token = token;
     user.Password = "";
+    user.RefreshToken = refreshToken;
 
     return &pb.LoginResponse{User: user}, nil
 }

@@ -1,7 +1,6 @@
 import 'package:calendarapp/blocs/login/login_bloc.dart';
 import 'package:calendarapp/blocs/login/login_event.dart';
 import 'package:calendarapp/blocs/login/login_state.dart';
-import 'package:calendarapp/services/token_provider.dart';
 import 'package:calendarapp/src/generated/protos/login.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +22,10 @@ class _SignupScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  late TokenProvider _tokenProvider;
 
   @override
   void initState() {
     _loginBloc = BlocProvider.of<LoginBloc>(context);
-    _tokenProvider = RepositoryProvider.of<TokenProvider>(context);
     super.initState();
   }
 
@@ -47,10 +44,7 @@ class _SignupScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state is SignupSuccessState) {
-        _tokenProvider
-            .saveToken(state.user.token)
-            .then((value) => Navigator.pushReplacementNamed(context, '/home'));
-        ;
+        Navigator.pushReplacementNamed(context, '/home');
       }
       if (state is LoginFailedState) {
         ScaffoldMessenger.of(context)
