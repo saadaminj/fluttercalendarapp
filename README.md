@@ -1,6 +1,13 @@
 # calendarapp
 
-A new Flutter project.
+A new Flutter project (using BloC pattern) with. Go lang as backend server (using microservices architecture).
+
+It has following features implemented both in frontend and backend:
+- Login/ Logout
+- Signup with validation
+- JWT Authentication (with refresh token handler on token expiry)
+- Create/ Delete/ Update Reminder with validation
+- Fetch list of reminders based on users
 
 ## Getting Started
 
@@ -39,8 +46,11 @@ To generate go files in protos directory
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
-To generate dart files in go directory
+To generate dart files
 - protoc --dart_out=grpc:./ -Iprotos protos/events.proto
+
+or 
+- protoc --dart_out=grpc:lib/src/generated -Igo go/protos/events.proto
 
 
 List down processes using port 50051:
