@@ -21,6 +21,9 @@ class TokenProvider {
   Future<String> loadToken(LoginClient loginService) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _token = prefs.getString(_jwtTokenKey) ?? '';
+    if (_token.isEmpty) {
+      return '';
+    }
     _refreshToken = prefs.getString(_jwtRefreshTokenKey) ?? '';
     if (isTokenExpired(token)) {
       String username = prefs.getString('${_userKey}username') ?? '';

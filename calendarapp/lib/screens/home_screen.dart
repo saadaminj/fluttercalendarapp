@@ -37,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void logout() {
     _loginBloc.add(LogoutEvent());
-    Navigator.pop(context, '/login');
   }
 
   void openWidget() {

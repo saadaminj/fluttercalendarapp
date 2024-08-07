@@ -1,9 +1,11 @@
 import 'package:calendarapp/blocs/login/login_bloc.dart';
 import 'package:calendarapp/blocs/login/login_event.dart';
+import 'package:calendarapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/login/login_state.dart';
+import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,25 +24,23 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
-      if (state is LoginInitialState) {
-        _loginBloc.add(CheckAuth());
-      }
-      if (state is Authenticated || state is LoginSuccessState) {
-        Navigator.pushNamed(context, '/home');
-      }
-      if (state is AuthenticationFailed || state is LogoutSuccess) {
-        Navigator.pushNamed(context, '/login');
-      }
-    }, builder: (context, state) {
-      if (state is LoginInitialState) {
-        _loginBloc.add(CheckAuth());
-      }
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(), // Show a loading indicator
-        ),
-      );
-    });
+    return BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is LoginInitialState) {
+            _loginBloc.add(CheckAuth());
+          }
+          if (state is Authenticated || state is LoginSuccessState) {
+            return const MyHomePage();
+          }
+          if (state is AuthenticationFailed || state is LogoutSuccess) {
+            return const LoginScreen();
+          }
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(), // Show a loading indicator
+            ),
+          );
+        });
   }
 }
