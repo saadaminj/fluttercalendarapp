@@ -8,6 +8,7 @@ It has following features implemented both in frontend and backend:
 - JWT Authentication (with refresh token handler on token expiry)
 - Create/ Delete/ Update Reminder with validation
 - Fetch list of reminders based on users
+- Integrated Firebase and phone authentication
 
 ## Getting Started
 
