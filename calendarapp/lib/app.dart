@@ -1,5 +1,6 @@
 import 'package:calendarapp/screens/home_screen.dart';
 import 'package:calendarapp/screens/login_screen.dart';
+import 'package:calendarapp/screens/phone_login.dart';
 import 'package:calendarapp/screens/signup_screen.dart';
 import 'package:calendarapp/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class App extends StatelessWidget {
         '/home': (context) => const MyHomePage(),
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
+        '/phoneLogin': (context) => PhoneAuthScreen(),
       },
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.blueGrey[800],

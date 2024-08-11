@@ -1,11 +1,10 @@
 import 'package:calendarapp/blocs/login/login_bloc.dart';
 import 'package:calendarapp/blocs/login/login_event.dart';
 import 'package:calendarapp/screens/home_screen.dart';
+import 'package:calendarapp/screens/phone_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../blocs/login/login_state.dart';
-import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,7 +33,7 @@ class SplashScreenState extends State<SplashScreen> {
             return const MyHomePage();
           }
           if (state is AuthenticationFailed || state is LogoutSuccess) {
-            return const LoginScreen();
+            return PhoneAuthScreen();
           }
           return const Scaffold(
             body: Center(
